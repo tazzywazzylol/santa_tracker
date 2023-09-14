@@ -1,0 +1,63 @@
+**Python:**
+`import discord
+from discord.ext import commands
+import requests
+from datetime import datetime, date
+
+command_prefix = '!'
+
+intents = discord.Intents().all()
+client = commands.Bot(command_prefix=command_prefix, intents=intents)
+
+# Function to calculate the countdown until Christmas
+def countdown_to_christmas():
+    today = date.today()
+    christmas_date = date(today.year, 12, 25)
+    if today > christmas_date:
+        christmas_date = christmas_date.replace(year=today.year + 1)
+    days_until_christmas = (christmas_date - today).days
+    return days_until_christmas
+
+@client.command()
+async def santa_track(ctx):
+    try:
+        # Fetch Santa's coordinates from the Santa Tracker API
+        api_url = "https://santa-api.appspot.com/info?client=web&language=en&fingerprint=&routeOffset=0&streamOffset=0"
+        santa_api = requests.get(api_url).json()
+
+        formatted_data = santa_api["location"]
+        print("Formatted Data:", formatted_data)  # Print formatted_data for debugging
+
+        latitude_str, longitude_str = map(str.strip, formatted_data.split(","))
+        latitude = float(latitude_str)
+        longitude = float(longitude_str)
+
+        # Calculate countdown until Christmas
+        days_until_christmas = countdown_to_christmas()
+
+        # URL to the image hosted on Repl.it
+        image_url = "https://i.etsystatic.com/8846746/r/il/768ea4/4243441162/il_794xN.4243441162_dl6c.jpg"
+
+        # Create an embed
+        embed = discord.Embed(
+            title="Santa Tracker",
+            description=f"Check out Santa's current location! {days_until_christmas} DAYS UNTIL CHRISTMAS🎅🏼.",
+            color=0xFF0000
+        )
+        embed.set_image(url=image_url)
+        embed.add_field(name="Latitude:", value=f"{latitude:.6f}")
+        embed.add_field(name="Longitude:", value=f"{longitude:.6f}")
+        embed.set_footer(text="Code made by simplytaz")
+
+        await ctx.send(embed=embed)
+    except KeyError as e:
+        await ctx.send("An error occurred while fetching Santa's data. Please try again later.")
+        print(f"KeyError: {e}")
+    except ValueError as e:
+        await ctx.send("An error occurred while processing Santa's coordinates. Please try again later.")
+        print(f"ValueError: {e}")
+    except Exception as e:
+        await ctx.send("An unexpected error occurred. Please try again later.")
+        print(f"Exception: {e}")
+
+client.run('Your_bot_token')`
