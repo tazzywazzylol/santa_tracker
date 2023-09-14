@@ -35,7 +35,7 @@ async def santa_track(ctx):
         # Calculate countdown until Christmas
         days_until_christmas = countdown_to_christmas()
 
-        # URL to the image hosted on Repl.it
+        # URL to the image
         image_url = "https://i.etsystatic.com/8846746/r/il/768ea4/4243441162/il_794xN.4243441162_dl6c.jpg"
 
         # Create an embed
