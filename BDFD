@@ -1,0 +1,9 @@
+**BDFD:**
+`$nomention
+$httpGet[https://santa-api.appspot.com/info?client=web&language=en&fingerprint=&routeOffset=0&streamOffset=0]
+$title[Track santa!!]
+$description[coordinates: $httpResult[location]]
+$image[https://images-ext-2.discordapp.net/external/CGQmxL5-eg4ETupVlr0lCMCrnz5mmPIV93ndN4bseBw/https/i.etsystatic.com/8846746/r/il/768ea4/4243441162/il_794xN.4243441162_dl6c.jpg]
+$footer[code created by simplytaz]`
+
+**I would do node.js but i don’t know the language so if you figure it out please tell me, my discord user is simplytaz.**
